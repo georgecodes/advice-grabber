@@ -31,12 +31,12 @@ class VcrFriendlyMain
 end
 
 Before('@vcr') do
-  Aruba::InProcess.main_class = VcrFriendlyMain
-  Aruba.process = Aruba::InProcess
+  aruba.config.command_launcher = :in_process
+  aruba.config.main_class = VcrFriendlyMain
 end
 
 After('@vcr') do
-  Aruba.process = Aruba::SpawnProcess
+  aruba.config.command_launcher = :spawn
   $stdin = STDIN
   $stdout = STDOUT
   VCR.eject_cassette
